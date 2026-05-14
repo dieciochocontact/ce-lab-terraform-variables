@@ -1,53 +1,41 @@
-# Lab M4.02 - Variables & Parameterization
+# Lab M4.02 - Terraform Variables & Parameterization
 
-**Course:** Cloud Engineering Bootcamp - Week 4  
-**Module:** Infrastructure as Code with Terraform  
-**Lab Type:** Individual  
-**Estimated Time:** 45-60 minutes
+## Overview
+Multi-environment S3 bucket deployment using Terraform variables.
 
----
+## Environments
+- **Dev:** dieciocho-lab3344-dev-bucket (versioning disabled)
+- **Prod:** dieciocho-lab3344-prod-bucket (versioning enabled)
 
-## 📋 Overview
+## Usage
 
-Make your Terraform configurations flexible and reusable using input variables, outputs, and environment-specific configurations.
-
-## 🎯 Learning Objectives
-
-- Define and use input variables
-- Implement variable validation
-- Create multi-environment setups
-- Use .tfvars files
-- Export meaningful outputs
-
-## 📁 Repository Structure
-
-```
-ce-lab-terraform-variables/
-├── README.md
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── dev.tfvars
-├── prod.tfvars
-└── screenshots/
+### Deploy Dev
+```bash
+terraform apply -var-file="dev.tfvars"
 ```
 
-## 🚀 Key Tasks
+### Deploy Prod
+```bash
+terraform workspace select prod
+terraform apply -var-file="prod.tfvars"
+```
 
-1. Convert hardcoded values to variables
-2. Add variable validation rules
-3. Create environment-specific .tfvars files
-4. Deploy to multiple environments
-5. Document variable usage
+## Variables
+- `environment`: dev/staging/prod
+- `bucket_prefix`: Bucket name prefix
+- `enable_versioning`: Enable S3 versioning
+- `aws_region`: AWS region
+- `tags`: Resource tags
 
-## ✅ Grading Criteria (100 points)
+## Outputs
+- `bucket_id`: Bucket name
+- `bucket_arn`: Bucket ARN
+- `bucket_region`: Bucket region
+- `versioning_enabled`: Versioning status
 
-- Variables defined: 25pts
-- Validation rules: 15pts
-- .tfvars files: 20pts
-- Multi-environment deployment: 25pts
-- Documentation: 15pts
-
----
-
-**Cloud Engineering Bootcamp** | Week 4 - Infrastructure as Code
+## Key Learnings
+- Variables make Terraform configurations reusable
+- Validation catches errors early
+- .tfvars files separate code from configuration
+- Workspaces isolate state between environments
+- DRY principle: one codebase, multiple environments
